@@ -4,30 +4,31 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Recipe Finder</title>
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <header>
+    <header class="header">
       <h1>Recipe Explorer</h1>
-      <main>
-        <section class="search-section">
-          <form id="search-form">
-            <input
-              type="text"
-              id="search-input"
-              placeholder="Enter an ingredient (e.g., chicken, pasta)"
-              required
-            />
-            <button type="submit">Search</button>
-          </form>
-        </section>
-        <section class="results-section">
-          <div id="recipes-container" class="recipes-container">
-            <p class="initial-text">Find your favorite meal!</p>
-          </div>
-        </section>
-      </main>
     </header>
+    <main>
+      <section class="search-section">
+        <form id="search-form">
+          <input
+            type="text"
+            id="search-input"
+            placeholder="Enter an ingredient (e.g., chicken, pasta)"
+            required
+          />
+          <button type="submit">Search</button>
+        </form>
+      </section>
+      <section class="results-section">
+        <div id="recipes-container" class="recipes-container">
+          <p class="initial-text">Find your favorite meal!</p>
+        </div>
+      </section>
+    </main>
+
     <script src="script.js"></script>
   </body>
 </html>
