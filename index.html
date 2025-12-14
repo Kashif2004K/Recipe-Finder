@@ -3,31 +3,45 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Recipe Finder</title>
+    <title>Recipe Explorer</title>
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <header class="header">
-      <h1>Recipe Explorer</h1>
-    </header>
-    <main>
-      <section class="search-section">
-        <form id="search-form">
-          <input
-            type="text"
-            id="search-input"
-            placeholder="Enter an ingredient (e.g., chicken, pasta)"
-            required
-          />
-          <button type="submit">Search</button>
-        </form>
-      </section>
-      <section class="results-section">
-        <div id="recipes-container" class="recipes-container">
-          <p class="initial-text">Find your favorite meal!</p>
+    <div class="app-container">
+      <aside class="sidebar">
+        <div class="logo">
+          <h1>Cooking</h1>
         </div>
-      </section>
-    </main>
+
+        <nav class="main-nav">
+          <a href="#" class="nav-link active"> Home </a>
+          <a href="#" class="nav-link"> Explore </a>
+          <a href="#" class="nav-link"> Community </a>
+          <a href="#" class="nav-link"> Favorites </a>
+        </nav>
+      </aside>
+
+      <main class="main-content">
+        <section class="search-bar-container">
+          <form id="search-form">
+            <input
+              type="text"
+              id="search-input"
+              placeholder="What do you want to cook today?"
+              required
+            />
+            <button type="submit" style="display: none"></button>
+          </form>
+          <button class="filter-button">Filter</button>
+        </section>
+        <section class="results-section" style="margin-top: 40px">
+          <h2>All Search Results</h2>
+          <div id="recipes-container" class="recipes-container">
+            <p class="initial-text">Your search results will appear here.</p>
+          </div>
+        </section>
+      </main>
+    </div>
 
     <script src="script.js"></script>
   </body>
