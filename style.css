@@ -5,35 +5,45 @@
 }
 
 body {
-  font-family: "Inter", sans-serif; /* Use a modern font like Inter or Poppins */
-  background-color: #eef1f5; /* Light background for the screen */
+  font-family: "Inter", sans-serif;
+  background-color: #adb6c2;
 }
 
-/* Set up the main grid/flex container for the entire app */
 .app-container {
-  display: flex; /* Using Flexbox for the main sidebar/content split */
+  display: flex;
   min-height: 100vh;
-  background-color: white; /* The "screen" itself is white */
-  margin: 20px; /* Gives the screen a border like the image */
+  background-color: rgb(255, 255, 255);
+  margin: 20px;
   border-radius: 20px;
-  overflow: hidden; /* Important for clean edges */
+  overflow: hidden;
 }
 
-/* --- 2. Sidebar Styling --- */
 .sidebar {
-  width: 280px;
-  padding: 30px 20px;
-  background-color: #fff;
-  border-right: 1px solid #eee;
-  flex-shrink: 0; /* Prevents sidebar from shrinking */
+  width: 260px;
+  padding: 50px 30px;
+  background-color: #bff3f0;
+  flex-shrink: 0;
+}
+
+.logo {
+  background-color: #7095fa;
+  text-align: center;
+  padding: 8px;
+  color: #012ea7;
+  margin-bottom: 30px;
+  border-radius: 10px;
+}
+
+span {
+  color: #ffffff;
 }
 
 .nav-link {
   display: flex;
   align-items: center;
   padding: 12px 15px;
-  margin-bottom: 5px;
-  color: #555;
+  margin-bottom: 12px;
+  color: #3b3b3b;
   text-decoration: none;
   border-radius: 8px;
   transition: background-color 0.2s, color 0.2s;
@@ -41,16 +51,15 @@ body {
 
 .nav-link:hover,
 .nav-link.active {
-  background-color: #f0f8ff; /* Light blue hover */
-  color: #4caf50; /* Green active color */
+  background-color: #b8d9f7;
+  color: #4179f1;
   font-weight: 600;
 }
 
-/* --- 3. Main Content Area --- */
 .main-content {
-  flex-grow: 1; /* Takes up the remaining space */
+  flex-grow: 1;
   padding: 40px;
-  overflow-y: auto; /* Allows content to scroll vertically */
+  overflow-y: auto;
 }
 
 h2 {
@@ -59,7 +68,6 @@ h2 {
   margin-bottom: 10px;
 }
 
-/* --- 4. Search Bar Styling (Top of Main Content) --- */
 .search-bar-container {
   display: flex;
   align-items: center;
@@ -67,6 +75,12 @@ h2 {
   background: #f8f8fa;
   border-radius: 12px;
   padding: 10px 20px;
+  gap: 15px;
+}
+
+#search-form {
+  display: flex;
+  flex-grow: 1;
 }
 
 #search-input {
@@ -76,6 +90,7 @@ h2 {
   background: transparent;
   font-size: 16px;
   outline: none;
+  padding: 12px 10px;
 }
 
 .filter-button {
@@ -88,24 +103,14 @@ h2 {
   color: #555;
 }
 
-/* --- 5. Horizontal Recipe Lists (Crucial for Recommended/Trending) --- */
-.horizontal-list {
+.recipes-container {
   display: flex;
-  overflow-x: auto; /* Enables horizontal scrolling */
+  flex-wrap: wrap;
   gap: 20px;
-  padding-bottom: 20px; /* Space for scrollbar */
-  /* Hide default scrollbar for a cleaner look (optional CSS trick) */
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
 }
 
-.horizontal-list::-webkit-scrollbar {
-  display: none; /* Chrome, Safari, Opera */
-}
-
-/* --- 6. Recipe Card Styling --- */
 .recipe-card {
-  min-width: 260px; /* Fixed size for horizontal scrolling */
+  min-width: 260px;
   max-width: 260px;
   background: white;
   border-radius: 16px;
