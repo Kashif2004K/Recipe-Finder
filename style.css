@@ -4,7 +4,6 @@
   padding: 0;
 }
 
-/* --- LIGHT THEME COLORS --- */
 body {
   font-family: "Inter", sans-serif;
   background-color: #adb6c2;
@@ -71,7 +70,6 @@ h2 {
   margin-bottom: 10px;
 }
 
-/* --- VIEW MANAGEMENT CLASSES --- */
 .view.hidden {
   display: none !important;
 }
@@ -79,7 +77,6 @@ h2 {
   display: block;
 }
 
-/* --- SEARCH BAR STYLING --- */
 .search-bar-container {
   display: flex;
   align-items: center;
@@ -120,9 +117,6 @@ h2 {
   color: #555;
 }
 
-/* --- RECIPE CONTAINERS & CARD STYLING --- */
-
-/* Horizontal List for Explore View */
 .horizontal-list {
   display: flex;
   overflow-x: auto;
@@ -134,7 +128,6 @@ h2 {
   display: none;
 }
 
-/* Grid for Search Results & Favorites */
 .grid-container {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -142,7 +135,6 @@ h2 {
   padding-top: 10px;
 }
 
-/* --- FIXED CARD HEIGHT FIX --- */
 .recipe-card {
   min-width: 260px;
   max-width: 100%;
@@ -187,7 +179,6 @@ h2 {
   font-size: 0.8rem;
 }
 
-/* --- BADGES AND METADATA --- */
 .time-badge {
   background-color: rgba(0, 0, 0, 0.6);
   color: white;
@@ -201,7 +192,6 @@ h2 {
   color: #ffc107;
 }
 
-/* 3. Text Truncation */
 .card-title {
   font-size: 1.1rem;
   font-weight: 600;
@@ -237,7 +227,6 @@ h2 {
   background-color: #45a049;
 }
 
-/* Heart Icon Container */
 .favorite-icon {
   position: absolute;
   top: 10px;
@@ -266,9 +255,6 @@ h2 {
   background: white;
 }
 
-/* ------------------------------------------- */
-/* --- MODAL STYLES (COMPLETELY OVERHAULED) --- */
-/* ------------------------------------------- */
 #recipe-modal-overlay {
   position: fixed;
   top: 0;
@@ -293,9 +279,9 @@ h2 {
   border-radius: 12px;
   padding: 30px;
   width: 90%;
-  max-width: 900px; /* Wider for better content display */
-  max-height: 90vh; /* CRUCIAL: Limits height to screen size */
-  overflow-y: auto; /* CRUCIAL: Allows scrolling inside the modal */
+  max-width: 900px;
+  max-height: 90vh;
+  overflow-y: auto;
   position: relative;
   box-shadow: 0 5px 25px rgba(0, 0, 0, 0.5);
   color: #333;
@@ -329,7 +315,7 @@ h2 {
 }
 
 #modal-content h2 {
-  color: #4179f1; /* Primary Blue Accent for title */
+  color: #4179f1;
   font-size: 2rem;
   margin-bottom: 10px;
 }
@@ -346,10 +332,9 @@ h2 {
   margin-top: 25px;
   margin-bottom: 10px;
   font-size: 1.5rem;
-  color: #4caf50; /* Green Accent for section titles */
+  color: #4caf50;
 }
 
-/* Stylish Ingredients List */
 #modal-content .ingredients-list {
   list-style: none;
   padding: 0;
@@ -362,7 +347,7 @@ h2 {
   background-color: #f5f5f5;
   padding: 8px 12px;
   border-radius: 6px;
-  flex: 1 1 calc(50% - 20px); /* Two columns, responsive */
+  flex: 1 1 calc(50% - 20px);
   min-width: 250px;
   font-size: 1rem;
   color: #444;
@@ -374,10 +359,9 @@ h2 {
   margin-bottom: 20px;
 }
 
-/* Stylish YouTube Link */
 .youtube-link {
   display: inline-block;
-  background-color: #ff0000; /* YouTube Red */
+  background-color: #ff0000;
   color: white;
   padding: 10px 20px;
   border-radius: 8px;
@@ -390,7 +374,6 @@ h2 {
   background-color: #cc0000;
 }
 
-/* Optional: Animation for appearing modal */
 @keyframes modal-fade-in {
   from {
     opacity: 0;
@@ -402,7 +385,6 @@ h2 {
   }
 }
 
-/* Initial text style in containers */
 .initial-text {
   color: #999;
 }

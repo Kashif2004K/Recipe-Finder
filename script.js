@@ -1,48 +1,31 @@
-// ===============================================
-// 1. DOM ELEMENTS AND API CONFIGURATION
-// ===============================================
-
-// Main Search & Results
 const searchForm = document.getElementById("search-form");
 const searchInput = document.getElementById("search-input");
 
-// All Container IDs
 const recipesContainer = document.getElementById("recipes-container"); // Home (Search)
 const recommendedContainer = document.getElementById("recommended-container"); // Explore
 const trendingContainer = document.getElementById("trending-container"); // Explore
 const favoritesContainer = document.getElementById("favorites-container"); // Favorites
 
-// API URLs
 const SEARCH_API_URL = "https://www.themealdb.com/api/json/v1/1/search.php?s=";
 const DETAIL_API_URL = "https://www.themealdb.com/api/json/v1/1/lookup.php?i=";
 
-// Modal
 const modalOverlay = document.getElementById("recipe-modal-overlay");
 const closeModalBtn = document.getElementById("close-modal-btn");
 const modalContent = document.getElementById("modal-content");
 
-// View Management
 const navLinks = document.querySelectorAll(".nav-link");
 const homeView = document.getElementById("home-view");
 const exploreView = document.getElementById("explore-view");
 const favoritesView = document.getElementById("favorites-view");
 
-// ===============================================
-// 2. FAVORITES UTILITY FUNCTIONS (LOCAL STORAGE)
-// ===============================================
-
-/** Retrieves the array of favorite meal IDs from localStorage. */
 function getFavorites() {
   const favorites = localStorage.getItem("recipeFavorites");
   return favorites ? JSON.parse(favorites) : [];
 }
 
-/** Saves the array of favorite meal IDs back to localStorage. */
 function saveFavorites(favoritesArray) {
   localStorage.setItem("recipeFavorites", JSON.stringify(favoritesArray));
 }
-
-/** Toggles the favorite status of a meal ID. */
 function toggleFavorite(mealId) {
   let favorites = getFavorites();
   const index = favorites.indexOf(mealId);
@@ -55,18 +38,12 @@ function toggleFavorite(mealId) {
 
   saveFavorites(favorites);
 
-  // If viewing the favorites page, refresh it
   if (favoritesView && favoritesView.classList.contains("active")) {
     fetchAndDisplayFavorites();
   }
   return index === -1;
 }
 
-// ===============================================
-// 3. RECIPE FETCHING & RENDERING
-// ===============================================
-
-/** Fetches recipes based on a query and displays them in the main container. */
 async function fetchRecipes(query) {
   recipesContainer.innerHTML = "<h2>Loading recipes...</h2>";
 
@@ -82,8 +59,6 @@ async function fetchRecipes(query) {
     console.error("Fetch Error:", error);
   }
 }
-
-/** Dynamically creates and renders recipe cards into a specified container. */
 function displayRecipes(meals, containerElement) {
   containerElement.innerHTML = "";
 
@@ -96,7 +71,6 @@ function displayRecipes(meals, containerElement) {
     return;
   }
 
-  // Controls horizontal vs grid layout
   if (containerElement.classList.contains("horizontal-list")) {
     containerElement.style.flexWrap = "nowrap";
   } else {
@@ -108,10 +82,8 @@ function displayRecipes(meals, containerElement) {
     card.classList.add("recipe-card");
     const isFavorite = getFavorites().includes(meal.idMeal);
 
-    // Use random or placeholder data for display consistency
     const randomTime = Math.floor(Math.random() * 45) + 15;
     const randomRating = (Math.random() * (5 - 3) + 3).toFixed(1);
-    // Placeholder tags for visual completeness
     const randomTag = Math.random() < 0.5 ? "Quick Meal" : "Low-Carb";
 
     card.innerHTML = `
@@ -151,11 +123,6 @@ function displayRecipes(meals, containerElement) {
   });
 }
 
-// ===============================================
-// 4. RECIPE DETAILS & VIEW MANAGEMENT FUNCTIONS
-// ===============================================
-
-/** Fetches a single recipe by ID and populates the modal. */
 async function fetchRecipeDetails(mealId) {
   modalContent.innerHTML = "<h2>Loading details...</h2>";
   modalOverlay.classList.add("open");
@@ -177,14 +144,11 @@ async function fetchRecipeDetails(mealId) {
   }
 }
 
-/** Populates the modal with the detailed recipe information. (UPDATED) */
 function displayModalContent(meal) {
   let ingredientsList = "";
   for (let i = 1; i <= 20; i++) {
     const ingredient = meal[`strIngredient${i}`];
     const measure = meal[`strMeasure${i}`];
-
-    // Only add if ingredient is present
     if (ingredient && ingredient.trim() !== "") {
       ingredientsList += `<li>${measure} ${ingredient}</li>`;
     }
@@ -214,7 +178,6 @@ function displayModalContent(meal) {
     `;
 }
 
-/** Fetches and displays all recipes saved in localStorage for the Favorites view. */
 async function fetchAndDisplayFavorites() {
   const favoriteIds = getFavorites();
   favoritesContainer.innerHTML = "<h2>Loading favorites...</h2>";
@@ -242,13 +205,9 @@ async function fetchAndDisplayFavorites() {
   }
 }
 
-/** Utility to switch the active content view and update nav link */
 function switchView(targetViewId, clickedLink) {
-  // 1. Update navigation active state
   navLinks.forEach((link) => link.classList.remove("active"));
   clickedLink.classList.add("active");
-
-  // 2. Update content view visibility
   document
     .querySelectorAll(".view")
     .forEach((view) => view.classList.add("hidden"));
@@ -260,11 +219,6 @@ function switchView(targetViewId, clickedLink) {
   }
 }
 
-// ===============================================
-// 5. EVENT LISTENERS
-// ===============================================
-
-// Search Form Submission
 searchForm.addEventListener("submit", (event) => {
   event.preventDefault();
   const query = searchInput.value.trim();
@@ -272,7 +226,6 @@ searchForm.addEventListener("submit", (event) => {
   searchInput.value = "";
 
   if (query) {
-    // Switch to Home view and set active link
     const homeLink = document.querySelector(
       '.nav-link[data-view-id="home-view"]'
     );
@@ -281,7 +234,6 @@ searchForm.addEventListener("submit", (event) => {
   }
 });
 
-// Handle Sidebar Navigation
 navLinks.forEach((link) => {
   link.addEventListener("click", (event) => {
     event.preventDefault();
@@ -292,7 +244,6 @@ navLinks.forEach((link) => {
     if (targetViewId === "favorites-view") {
       fetchAndDisplayFavorites();
     } else if (targetViewId === "explore-view") {
-      // Load content only if it hasn't been loaded before
       if (recommendedContainer.innerHTML.includes("Loading")) {
         loadInitialContent();
       }
@@ -300,7 +251,6 @@ navLinks.forEach((link) => {
   });
 });
 
-// Consolidated Click Handler for Details Button and Favorites Icon
 function handleRecipeCardClick(event) {
   const detailsButton = event.target.closest(".details-btn");
   const icon = event.target.closest(".favorite-icon");
@@ -322,7 +272,6 @@ function handleRecipeCardClick(event) {
   }
 }
 
-// Event Delegation for All Recipe Containers
 recipesContainer.addEventListener("click", handleRecipeCardClick);
 if (recommendedContainer)
   recommendedContainer.addEventListener("click", handleRecipeCardClick);
@@ -331,7 +280,6 @@ if (trendingContainer)
 if (favoritesContainer)
   favoritesContainer.addEventListener("click", handleRecipeCardClick);
 
-// Modal Closing Listeners
 closeModalBtn.addEventListener("click", () => {
   modalOverlay.classList.remove("open");
 });
@@ -348,17 +296,12 @@ document.addEventListener("keydown", (event) => {
   }
 });
 
-// ===============================================
-// 6. INITIALIZATION (Loads content for the EXPLORE view)
-// ===============================================
-
 async function loadInitialContent() {
   if (recommendedContainer)
     recommendedContainer.innerHTML = "<h2>Loading Recommended...</h2>";
   if (trendingContainer)
     trendingContainer.innerHTML = "<h2>Loading Trending...</h2>";
 
-  // Fetch for Recommended
   await fetch("https://www.themealdb.com/api/json/v1/1/search.php?s=chicken")
     .then((res) => res.json())
     .then((data) => {
@@ -370,7 +313,6 @@ async function loadInitialContent() {
       console.error("Error loading recommended recipes:", error)
     );
 
-  // Fetch for Trending
   await fetch("https://www.themealdb.com/api/json/v1/1/search.php?s=beef")
     .then((res) => res.json())
     .then((data) => {
