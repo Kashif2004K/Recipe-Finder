@@ -7,13 +7,13 @@
 /* --- LIGHT THEME COLORS --- */
 body {
   font-family: "Inter", sans-serif;
-  background-color: #adb6c2; /* Original Light Page Background */
+  background-color: #adb6c2;
 }
 
 .app-container {
   display: flex;
   min-height: 100vh;
-  background-color: rgb(255, 255, 255); /* White Main Background */
+  background-color: rgb(255, 255, 255);
   margin: 20px;
   border-radius: 20px;
   overflow: hidden;
@@ -22,7 +22,7 @@ body {
 .sidebar {
   width: 300px;
   padding: 50px 30px;
-  background-color: #bff3f0; /* Original Sidebar Color */
+  background-color: #bff3f0;
   flex-shrink: 0;
 }
 
@@ -71,6 +71,14 @@ h2 {
   margin-bottom: 10px;
 }
 
+/* --- VIEW MANAGEMENT CLASSES --- */
+.view.hidden {
+  display: none !important;
+}
+.view.active {
+  display: block;
+}
+
 /* --- SEARCH BAR STYLING --- */
 .search-bar-container {
   display: flex;
@@ -96,7 +104,7 @@ h2 {
   font-size: 16px;
   outline: none;
   padding: 12px 10px;
-  color: #333; /* Ensure text is visible on light background */
+  color: #333;
 }
 #search-input::placeholder {
   color: #999;
@@ -110,14 +118,6 @@ h2 {
   cursor: pointer;
   font-weight: bold;
   color: #555;
-}
-
-/* --- VIEW MANAGEMENT (Kept for HTML/JS structure) --- */
-.view.hidden {
-  display: none !important;
-}
-.view.active {
-  display: block;
 }
 
 /* --- RECIPE CONTAINERS & CARD STYLING --- */
@@ -142,18 +142,17 @@ h2 {
   padding-top: 10px;
 }
 
-/* --- FIXED CARD HEIGHT FIX (PRESERVED) --- */
+/* --- FIXED CARD HEIGHT FIX --- */
 .recipe-card {
   min-width: 260px;
   max-width: 100%;
-  background: white; /* Card background is white */
+  background: white;
   border-radius: 16px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Lighter shadow */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   cursor: pointer;
   transition: transform 0.2s, box-shadow 0.2s;
 
-  /* 1. Use Flex to stack and push the button down */
   display: flex;
   flex-direction: column;
 }
@@ -169,13 +168,12 @@ h2 {
 
 .card-image {
   width: 100%;
-  height: 150px; /* Fixed image height */
+  height: 150px;
   object-fit: cover;
 }
 
 .card-content {
   padding: 15px;
-  /* 2. Content fills remaining space, pushing the last item (button) down */
   flex-grow: 1;
   display: flex;
   flex-direction: column;
@@ -189,7 +187,7 @@ h2 {
   font-size: 0.8rem;
 }
 
-/* --- BADGES AND METADATA (Restored colors) --- */
+/* --- BADGES AND METADATA --- */
 .time-badge {
   background-color: rgba(0, 0, 0, 0.6);
   color: white;
@@ -203,12 +201,12 @@ h2 {
   color: #ffc107;
 }
 
-/* 3. Text Truncation (PRESERVED) */
+/* 3. Text Truncation */
 .card-title {
   font-size: 1.1rem;
   font-weight: 600;
   margin-bottom: 5px;
-  color: #333; /* Dark text on light card */
+  color: #333;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -225,7 +223,7 @@ h2 {
 
 .details-btn {
   width: 100%;
-  background-color: #4caf50; /* Green button */
+  background-color: #4caf50;
   color: white;
   padding: 10px;
   border: none;
@@ -239,7 +237,7 @@ h2 {
   background-color: #45a049;
 }
 
-/* Heart Icon Container (Restored light theme style) */
+/* Heart Icon Container */
 .favorite-icon {
   position: absolute;
   top: 10px;
@@ -268,7 +266,9 @@ h2 {
   background: white;
 }
 
-/* --- MODAL STYLES --- */
+/* ------------------------------------------- */
+/* --- MODAL STYLES (COMPLETELY OVERHAULED) --- */
+/* ------------------------------------------- */
 #recipe-modal-overlay {
   position: fixed;
   top: 0;
@@ -293,10 +293,12 @@ h2 {
   border-radius: 12px;
   padding: 30px;
   width: 90%;
-  max-width: 800px;
+  max-width: 900px; /* Wider for better content display */
+  max-height: 90vh; /* CRUCIAL: Limits height to screen size */
+  overflow-y: auto; /* CRUCIAL: Allows scrolling inside the modal */
   position: relative;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-  color: #333; /* Dark text in modal */
+  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.5);
+  color: #333;
   animation: modal-fade-in 0.3s ease-out;
 }
 
@@ -304,40 +306,88 @@ h2 {
   position: absolute;
   top: 15px;
   right: 15px;
-  background: none;
+  background: #f0f0f0;
   border: none;
-  font-size: 30px;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  font-size: 24px;
   cursor: pointer;
   color: #555;
+  transition: background 0.2s;
+}
+#close-modal-btn:hover {
+  background-color: #ddd;
 }
 
 #modal-content img {
   max-width: 100%;
   height: auto;
   border-radius: 8px;
-  margin-bottom: 20px;
+  margin-bottom: 25px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 #modal-content h2 {
-  color: #ff6347;
-  margin-bottom: 15px;
+  color: #4179f1; /* Primary Blue Accent for title */
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+#modal-content .modal-meta {
+  font-size: 0.95rem;
+  color: #777;
+  margin-bottom: 25px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 15px;
 }
 
 #modal-content h3 {
-  margin-top: 20px;
+  margin-top: 25px;
   margin-bottom: 10px;
-  font-size: 1.4rem;
-  color: #4179f1;
+  font-size: 1.5rem;
+  color: #4caf50; /* Green Accent for section titles */
 }
 
-#modal-content ul {
-  list-style: disc inside;
-  padding-left: 20px;
-  font-size: 1.05rem;
-  color: #555;
+/* Stylish Ingredients List */
+#modal-content .ingredients-list {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
 }
+#modal-content .ingredients-list li {
+  background-color: #f5f5f5;
+  padding: 8px 12px;
+  border-radius: 6px;
+  flex: 1 1 calc(50% - 20px); /* Two columns, responsive */
+  min-width: 250px;
+  font-size: 1rem;
+  color: #444;
+}
+
 #modal-content p {
   color: #444;
+  line-height: 1.8;
+  margin-bottom: 20px;
+}
+
+/* Stylish YouTube Link */
+.youtube-link {
+  display: inline-block;
+  background-color: #ff0000; /* YouTube Red */
+  color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  margin-top: 10px;
+  transition: background-color 0.2s;
+}
+.youtube-link:hover {
+  background-color: #cc0000;
 }
 
 /* Optional: Animation for appearing modal */

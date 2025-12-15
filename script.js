@@ -55,6 +55,7 @@ function toggleFavorite(mealId) {
 
   saveFavorites(favorites);
 
+  // If viewing the favorites page, refresh it
   if (favoritesView && favoritesView.classList.contains("active")) {
     fetchAndDisplayFavorites();
   }
@@ -107,8 +108,10 @@ function displayRecipes(meals, containerElement) {
     card.classList.add("recipe-card");
     const isFavorite = getFavorites().includes(meal.idMeal);
 
+    // Use random or placeholder data for display consistency
     const randomTime = Math.floor(Math.random() * 45) + 15;
     const randomRating = (Math.random() * (5 - 3) + 3).toFixed(1);
+    // Placeholder tags for visual completeness
     const randomTag = Math.random() < 0.5 ? "Quick Meal" : "Low-Carb";
 
     card.innerHTML = `
@@ -149,7 +152,7 @@ function displayRecipes(meals, containerElement) {
 }
 
 // ===============================================
-// 4. RECIPE DETAILS & FAVORITES VIEW FUNCTIONS
+// 4. RECIPE DETAILS & VIEW MANAGEMENT FUNCTIONS
 // ===============================================
 
 /** Fetches a single recipe by ID and populates the modal. */
@@ -174,13 +177,14 @@ async function fetchRecipeDetails(mealId) {
   }
 }
 
-/** Populates the modal with the detailed recipe information. */
+/** Populates the modal with the detailed recipe information. (UPDATED) */
 function displayModalContent(meal) {
   let ingredientsList = "";
   for (let i = 1; i <= 20; i++) {
     const ingredient = meal[`strIngredient${i}`];
     const measure = meal[`strMeasure${i}`];
 
+    // Only add if ingredient is present
     if (ingredient && ingredient.trim() !== "") {
       ingredientsList += `<li>${measure} ${ingredient}</li>`;
     }
@@ -189,22 +193,22 @@ function displayModalContent(meal) {
   modalContent.innerHTML = `
         <div class="modal-header">
             <h2>${meal.strMeal}</h2>
-            <p>Category: <strong>${meal.strCategory}</strong> | Area: <strong>${
-    meal.strArea
-  }</strong></p>
+            <p class="modal-meta">Category: <strong>${
+              meal.strCategory
+            }</strong> | Area: <strong>${meal.strArea}</strong></p>
         </div>
         
         <img src="${meal.strMealThumb}" alt="${meal.strMeal}">
         
         <h3>Ingredients</h3>
-        <ul>${ingredientsList}</ul>
+        <ul class="ingredients-list">${ingredientsList}</ul>
         
         <h3>Instructions</h3>
         <p>${meal.strInstructions.replace(/\r\n/g, "<br><br>")}</p>
         
         ${
           meal.strYoutube
-            ? `<a href="${meal.strYoutube}" target="_blank" class="youtube-link">Watch on YouTube</a>`
+            ? `<a href="${meal.strYoutube}" target="_blank" class="youtube-link">Watch Instructions on YouTube</a>`
             : ""
         }
     `;
@@ -238,16 +242,22 @@ async function fetchAndDisplayFavorites() {
   }
 }
 
-/** Utility to switch the active content view */
-function switchView(targetView) {
+/** Utility to switch the active content view and update nav link */
+function switchView(targetViewId, clickedLink) {
+  // 1. Update navigation active state
   navLinks.forEach((link) => link.classList.remove("active"));
+  clickedLink.classList.add("active");
 
+  // 2. Update content view visibility
   document
     .querySelectorAll(".view")
     .forEach((view) => view.classList.add("hidden"));
 
-  targetView.classList.remove("hidden");
-  targetView.classList.add("active");
+  const targetView = document.getElementById(targetViewId);
+  if (targetView) {
+    targetView.classList.remove("hidden");
+    targetView.classList.add("active");
+  }
 }
 
 // ===============================================
@@ -263,10 +273,31 @@ searchForm.addEventListener("submit", (event) => {
 
   if (query) {
     // Switch to Home view and set active link
-    switchView(homeView);
-    document.querySelector(".nav-link:nth-child(1)").classList.add("active");
+    const homeLink = document.querySelector(
+      '.nav-link[data-view-id="home-view"]'
+    );
+    switchView("home-view", homeLink);
     fetchRecipes(query);
   }
+});
+
+// Handle Sidebar Navigation
+navLinks.forEach((link) => {
+  link.addEventListener("click", (event) => {
+    event.preventDefault();
+
+    const targetViewId = link.dataset.viewId;
+    switchView(targetViewId, link);
+
+    if (targetViewId === "favorites-view") {
+      fetchAndDisplayFavorites();
+    } else if (targetViewId === "explore-view") {
+      // Load content only if it hasn't been loaded before
+      if (recommendedContainer.innerHTML.includes("Loading")) {
+        loadInitialContent();
+      }
+    }
+  });
 });
 
 // Consolidated Click Handler for Details Button and Favorites Icon
@@ -300,32 +331,6 @@ if (trendingContainer)
 if (favoritesContainer)
   favoritesContainer.addEventListener("click", handleRecipeCardClick);
 
-// Handle Sidebar Navigation
-navLinks.forEach((link) => {
-  link.addEventListener("click", (event) => {
-    event.preventDefault();
-
-    navLinks.forEach((n) => n.classList.remove("active"));
-    link.classList.add("active");
-
-    const linkText = link.textContent.trim();
-
-    if (linkText === "Favorites") {
-      switchView(favoritesView);
-      fetchAndDisplayFavorites();
-    } else if (linkText === "Explore") {
-      switchView(exploreView);
-      // Load content only if it hasn't been loaded before
-      if (recommendedContainer.innerHTML.includes("Loading")) {
-        loadInitialContent();
-      }
-    } else {
-      // Home
-      switchView(homeView);
-    }
-  });
-});
-
 // Modal Closing Listeners
 closeModalBtn.addEventListener("click", () => {
   modalOverlay.classList.remove("open");
@@ -349,8 +354,9 @@ document.addEventListener("keydown", (event) => {
 
 async function loadInitialContent() {
   if (recommendedContainer)
-    recommendedContainer.innerHTML = "<h2>Loading...</h2>";
-  if (trendingContainer) trendingContainer.innerHTML = "<h2>Loading...</h2>";
+    recommendedContainer.innerHTML = "<h2>Loading Recommended...</h2>";
+  if (trendingContainer)
+    trendingContainer.innerHTML = "<h2>Loading Trending...</h2>";
 
   // Fetch for Recommended
   await fetch("https://www.themealdb.com/api/json/v1/1/search.php?s=chicken")

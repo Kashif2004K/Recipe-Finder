@@ -3,20 +3,24 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Cookpol Recipe Explorer</title>
+    <title>Recipe Explorer</title>
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
     <div class="app-container">
       <aside class="sidebar">
         <div class="logo">
-          <h1>Cookpol</h1>
+          <h1><span>Coo</span>king</h1>
         </div>
 
         <nav class="main-nav">
-          <a href="#" class="nav-link active"> Home </a>
-          <a href="#" class="nav-link"> Explore </a>
-          <a href="#" class="nav-link"> Favorites </a>
+          <a href="#" class="nav-link active" data-view-id="home-view">
+            Home
+          </a>
+          <a href="#" class="nav-link" data-view-id="explore-view"> Explore </a>
+          <a href="#" class="nav-link" data-view-id="favorites-view">
+            Favorites
+          </a>
         </nav>
       </aside>
 
@@ -36,14 +40,12 @@
           </section>
 
           <section class="results-section">
-            <h2>Search Results</h2>
+            <h2>All Search Results</h2>
             <div
               id="recipes-container"
               class="recipes-container grid-container"
             >
-              <p class="initial-text">
-                Search for recipes to see results here.
-              </p>
+              <p class="initial-text">Your search results will appear here.</p>
             </div>
           </section>
         </div>
