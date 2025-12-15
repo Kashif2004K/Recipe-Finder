@@ -3,44 +3,97 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Recipe Explorer</title>
+    <title>Cookpol Recipe Explorer</title>
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
     <div class="app-container">
       <aside class="sidebar">
         <div class="logo">
-          <h1><span>Coo</span>king</h1>
+          <h1>Cookpol</h1>
         </div>
 
         <nav class="main-nav">
           <a href="#" class="nav-link active"> Home </a>
           <a href="#" class="nav-link"> Explore </a>
-          <a href="#" class="nav-link"> Community </a>
           <a href="#" class="nav-link"> Favorites </a>
         </nav>
       </aside>
 
       <main class="main-content">
-        <section class="search-bar-container">
-          <form id="search-form">
-            <input
-              type="text"
-              id="search-input"
-              placeholder="What do you want to cook today?"
-              required
-            />
-            <button type="submit"></button>
-          </form>
-          <button class="filter-button">Filter</button>
-        </section>
-        <section class="results-section">
-          <h2>All Search Results</h2>
-          <div id="recipes-container" class="recipes-container">
-            <p class="initial-text">Your search results will appear here.</p>
-          </div>
-        </section>
+        <div id="home-view" class="view active">
+          <section class="search-bar-container">
+            <form id="search-form">
+              <input
+                type="text"
+                id="search-input"
+                placeholder="What do you want to cook today?"
+                required
+              />
+              <button type="submit" style="display: none"></button>
+            </form>
+            <button class="filter-button">Filter</button>
+          </section>
+
+          <section class="results-section">
+            <h2>Search Results</h2>
+            <div
+              id="recipes-container"
+              class="recipes-container grid-container"
+            >
+              <p class="initial-text">
+                Search for recipes to see results here.
+              </p>
+            </div>
+          </section>
+        </div>
+
+        <div id="explore-view" class="view hidden">
+          <section class="results-section">
+            <h2>Recommended Recipes</h2>
+            <div
+              id="recommended-container"
+              class="recipes-container horizontal-list"
+            >
+              <p class="initial-text">Loading recommended recipes...</p>
+            </div>
+          </section>
+
+          <section class="results-section" style="margin-top: 40px">
+            <h2>Trending Recipes</h2>
+            <div
+              id="trending-container"
+              class="recipes-container horizontal-list"
+            >
+              <p class="initial-text">Loading trending recipes...</p>
+            </div>
+          </section>
+        </div>
+
+        <div id="favorites-view" class="view hidden">
+          <section class="results-section">
+            <h2>My Favorites ❤️</h2>
+            <div
+              id="favorites-container"
+              class="recipes-container grid-container"
+            >
+              <p class="initial-text">
+                You haven't added any favorite recipes yet.
+              </p>
+            </div>
+          </section>
+        </div>
       </main>
+    </div>
+
+    <div id="recipe-modal-overlay">
+      <div id="recipe-detail-modal">
+        <button id="close-modal-btn">&times;</button>
+        <div id="modal-content">
+          <h2>Recipe Name</h2>
+          <p>Loading...</p>
+        </div>
+      </div>
     </div>
 
     <script src="script.js"></script>

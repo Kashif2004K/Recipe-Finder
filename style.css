@@ -4,29 +4,31 @@
   padding: 0;
 }
 
+/* --- LIGHT THEME COLORS --- */
 body {
   font-family: "Inter", sans-serif;
-  background-color: #adb6c2;
+  background-color: #adb6c2; /* Original Light Page Background */
 }
 
 .app-container {
   display: flex;
   min-height: 100vh;
-  background-color: rgb(255, 255, 255);
+  background-color: rgb(255, 255, 255); /* White Main Background */
   margin: 20px;
   border-radius: 20px;
   overflow: hidden;
 }
 
 .sidebar {
-  width: 260px;
+  width: 300px;
   padding: 50px 30px;
-  background-color: #bff3f0;
+  background-color: #bff3f0; /* Original Sidebar Color */
   flex-shrink: 0;
 }
 
 .logo {
-  background-color: #7095fa;
+  background-color: rgba(112, 149, 250, 0.3);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
   text-align: center;
   padding: 8px;
   color: #012ea7;
@@ -52,13 +54,14 @@ span {
 .nav-link:hover,
 .nav-link.active {
   background-color: #b8d9f7;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   color: #4179f1;
   font-weight: 600;
 }
 
 .main-content {
   flex-grow: 1;
-  padding: 40px;
+  padding: 40px 80px;
   overflow-y: auto;
 }
 
@@ -68,11 +71,13 @@ h2 {
   margin-bottom: 10px;
 }
 
+/* --- SEARCH BAR STYLING --- */
 .search-bar-container {
   display: flex;
   align-items: center;
   margin-bottom: 40px;
   background: #f8f8fa;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
   border-radius: 12px;
   padding: 10px 20px;
   gap: 15px;
@@ -91,6 +96,10 @@ h2 {
   font-size: 16px;
   outline: none;
   padding: 12px 10px;
+  color: #333; /* Ensure text is visible on light background */
+}
+#search-input::placeholder {
+  color: #999;
 }
 
 .filter-button {
@@ -103,35 +112,74 @@ h2 {
   color: #555;
 }
 
-.recipes-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
+/* --- VIEW MANAGEMENT (Kept for HTML/JS structure) --- */
+.view.hidden {
+  display: none !important;
+}
+.view.active {
+  display: block;
 }
 
+/* --- RECIPE CONTAINERS & CARD STYLING --- */
+
+/* Horizontal List for Explore View */
+.horizontal-list {
+  display: flex;
+  overflow-x: auto;
+  gap: 25px;
+  padding-bottom: 15px;
+  scrollbar-width: none;
+}
+.horizontal-list::-webkit-scrollbar {
+  display: none;
+}
+
+/* Grid for Search Results & Favorites */
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 30px;
+  padding-top: 10px;
+}
+
+/* --- FIXED CARD HEIGHT FIX (PRESERVED) --- */
 .recipe-card {
   min-width: 260px;
-  max-width: 260px;
-  background: white;
+  max-width: 100%;
+  background: white; /* Card background is white */
   border-radius: 16px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Lighter shadow */
   overflow: hidden;
   cursor: pointer;
-  transition: transform 0.2s;
+  transition: transform 0.2s, box-shadow 0.2s;
+
+  /* 1. Use Flex to stack and push the button down */
+  display: flex;
+  flex-direction: column;
 }
 
 .recipe-card:hover {
   transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.recipe-card-header {
+  position: relative;
 }
 
 .card-image {
   width: 100%;
-  height: 150px;
+  height: 150px; /* Fixed image height */
   object-fit: cover;
 }
 
 .card-content {
   padding: 15px;
+  /* 2. Content fills remaining space, pushing the last item (button) down */
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .card-header-info {
@@ -141,21 +189,38 @@ h2 {
   font-size: 0.8rem;
 }
 
+/* --- BADGES AND METADATA (Restored colors) --- */
 .time-badge {
   background-color: rgba(0, 0, 0, 0.6);
   color: white;
-  padding: 2px 6px;
-  border-radius: 4px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
 }
-
 .rating {
+  font-weight: 600;
   color: #ffc107;
-  font-weight: bold;
 }
 
-.card-tags {
-  margin-top: 10px;
-  margin-bottom: 15px;
+/* 3. Text Truncation (PRESERVED) */
+.card-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 5px;
+  color: #333; /* Dark text on light card */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.card-metadata {
+  font-size: 0.85rem;
+  color: #777;
+  margin-bottom: 10px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .details-btn {
@@ -166,6 +231,7 @@ h2 {
   border: none;
   border-radius: 6px;
   cursor: pointer;
+  font-weight: 600;
   transition: background-color 0.2s;
 }
 
@@ -173,33 +239,120 @@ h2 {
   background-color: #45a049;
 }
 
-.card-title {
-  font-size: 1.1rem;
-  font-weight: 600;
-  margin-bottom: 5px;
+/* Heart Icon Container (Restored light theme style) */
+.favorite-icon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  font-size: 18px;
+  color: #ccc;
+  transition: color 0.2s, background 0.2s;
+  z-index: 10;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 
-.card-metadata {
-  font-size: 0.85rem;
-  color: #777;
-  margin-bottom: 10px;
+.favorite-icon:hover {
+  color: #ff4757;
 }
 
-/* Placeholder for small tags/badges */
-.tag {
-  display: inline-block;
-  padding: 4px 8px;
-  border-radius: 4px;
-  font-size: 0.7rem;
-  font-weight: 600;
-  margin-right: 5px;
+.favorite-icon.active {
+  color: #ff4757;
+  background: white;
 }
 
-.tag.health {
-  background-color: #e6ffe6;
-  color: #4caf50;
+/* --- MODAL STYLES --- */
+#recipe-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  overflow-y: auto;
+  padding: 20px;
 }
-.tag.gluten {
-  background-color: #fff0f0;
+
+#recipe-modal-overlay.open {
+  display: flex;
+}
+
+#recipe-detail-modal {
+  background: white;
+  border-radius: 12px;
+  padding: 30px;
+  width: 90%;
+  max-width: 800px;
+  position: relative;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  color: #333; /* Dark text in modal */
+  animation: modal-fade-in 0.3s ease-out;
+}
+
+#close-modal-btn {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: none;
+  border: none;
+  font-size: 30px;
+  cursor: pointer;
+  color: #555;
+}
+
+#modal-content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+#modal-content h2 {
   color: #ff6347;
+  margin-bottom: 15px;
+}
+
+#modal-content h3 {
+  margin-top: 20px;
+  margin-bottom: 10px;
+  font-size: 1.4rem;
+  color: #4179f1;
+}
+
+#modal-content ul {
+  list-style: disc inside;
+  padding-left: 20px;
+  font-size: 1.05rem;
+  color: #555;
+}
+#modal-content p {
+  color: #444;
+}
+
+/* Optional: Animation for appearing modal */
+@keyframes modal-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Initial text style in containers */
+.initial-text {
+  color: #999;
 }
